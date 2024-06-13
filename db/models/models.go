@@ -4,22 +4,15 @@
 
 package db
 
-import (
-	"database/sql"
-)
-
-type Post struct {
-	ID        int32        `json:"id"`
-	UserID    int32        `json:"user_id"`
-	Title     string       `json:"title"`
-	Content   string       `json:"content"`
-	CreatedAt sql.NullTime `json:"created_at"`
-	UpdatedAt sql.NullTime `json:"updated_at"`
+type Task struct {
+	ID      int32  `json:"id"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
+	UserID  int32  `json:"user_id"`
 }
 
 type User struct {
-	ID           int32        `json:"id"`
-	Username     string       `json:"username"`
-	PasswordHash string       `json:"password_hash"`
-	CreatedAt    sql.NullTime `json:"created_at"`
+	ID       int32  `json:"id"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }

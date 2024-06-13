@@ -9,20 +9,12 @@ import (
 )
 
 type Querier interface {
-	// Insert a new post
-	CreatePost(ctx context.Context, arg CreatePostParams) (Post, error)
-	// Insert a new user
-	CreateUser(ctx context.Context, arg CreateUserParams) (CreateUserRow, error)
-	// Delete a post
-	DeletePost(ctx context.Context, id int32) error
-	// Get a post by ID
-	GetPost(ctx context.Context, id int32) (Post, error)
-	// Get a user by username
+	CreateTask(ctx context.Context, arg CreateTaskParams) (Task, error)
+	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
+	DeleteTask(ctx context.Context, arg DeleteTaskParams) error
+	GetTaskByUserID(ctx context.Context, userID int32) ([]Task, error)
 	GetUserByUsername(ctx context.Context, username string) (User, error)
-	// List all posts
-	ListPosts(ctx context.Context) ([]Post, error)
-	// Update a post
-	UpdatePost(ctx context.Context, arg UpdatePostParams) error
+	UpdateTask(ctx context.Context, arg UpdateTaskParams) error
 }
 
 var _ Querier = (*Queries)(nil)
