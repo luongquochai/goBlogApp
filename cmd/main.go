@@ -23,6 +23,7 @@ func main() {
 	defer db.Close()
 
 	router := gin.Default()
+
 	handlers.RegisterRoutes(router, db)
 
 	log.Println("Server started at: ", config.PORT)
