@@ -1,9 +1,9 @@
 version: "1"
 packages:
-  - name: "db"
-    path: "./db/models"
-    queries: "./db/queries"
-    schema: "./db/schema.sql"
+  - path: "../internal/models"
+    name: "models"
+    queries: "./queries.sql"
+    schema: "./migrations"
     engine: "postgresql"
     emit_json_tags: true
     emit_prepared_queries: false

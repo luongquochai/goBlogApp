@@ -8,6 +8,7 @@ type Config struct {
 	DB_DRIVER        string `mapstructure:"DB_DRIVER"`
 	SUPER_SECRET_KEY string `mapstructure:"SUPER_SECRET_KEY"`
 	MY_SECRET_KEY    string `mapstructure:"MY_SECRET_KEY"`
+	PORT             string `mapstructure:"PORT"`
 }
 
 func LoadConfig(path string) (config Config, err error) {

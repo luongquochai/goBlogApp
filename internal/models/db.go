@@ -2,7 +2,7 @@
 // versions:
 //   sqlc v1.26.0
 
-package db
+package models
 
 import (
 	"context"
@@ -29,4 +29,3 @@ func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 		db: tx,
 	}
 }
-
