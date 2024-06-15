@@ -6,30 +6,10 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com/luongquochai/goBlog/internal/models"
+	"github.com/luongquochai/goBlogApp/internal/models"
+	"github.com/luongquochai/goBlogApp/internal/util"
 	"golang.org/x/crypto/bcrypt"
 )
-
-type PageData struct {
-	Title string
-}
-
-// Function helpers
-func (h *AuthHandler) HomePage(c *gin.Context) {
-	tmpl := template.Must(template.ParseFiles("internal/templates/layout.html", "internal/templates/home.html"))
-	data := PageData{Title: "Home"}
-	if err := tmpl.ExecuteTemplate(c.Writer, "layout.html", data); err != nil {
-		http.Error(c.Writer, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func (h *AuthHandler) HomePageAuth(c *gin.Context) {
-	tmpl := template.Must(template.ParseFiles("internal/templates/layout_auth.html", "internal/templates/home_auth.html"))
-	data := PageData{Title: "Home"}
-	if err := tmpl.ExecuteTemplate(c.Writer, "layout_auth.html", data); err != nil {
-		http.Error(c.Writer, err.Error(), http.StatusInternalServerError)
-	}
-}
 
 func (h *AuthHandler) Login(c *gin.Context) {
 	tmpl := template.Must(template.ParseFiles("internal/templates/layout.html", "internal/templates/login.html"))
@@ -43,6 +23,8 @@ func (h *AuthHandler) LoginPost(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 
+	// TODO: Dynamic inpu login: username or email
+	// TODO: Adjust sqlc: GetUserByEmail
 	user, err := models.New(h.db).GetUserByUsername(c.Request.Context(), username)
 	if err != nil {
 		c.String(http.StatusUnauthorized, "Invalid creadentials")
@@ -72,6 +54,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 
 func (h *AuthHandler) RegisterPost(c *gin.Context) {
 	username := c.PostForm("username")
+	email := c.PostForm("email")
 	password := c.PostForm("password")
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
@@ -80,8 +63,16 @@ func (h *AuthHandler) RegisterPost(c *gin.Context) {
 		return
 	}
 
+	//TODO: check email is exist or not
+	emailExists := util.EmailExists(h.db, email)
+	if emailExists != nil {
+		c.String(http.StatusExpectationFailed, "Email is already exists!!!")
+		return
+	}
+
 	_, err = models.New(h.db).CreateUser(c.Request.Context(), models.CreateUserParams{
 		Username:       username,
+		Email:          email,
 		HashedPassword: string(hashedPassword),
 	})
 	if err != nil {

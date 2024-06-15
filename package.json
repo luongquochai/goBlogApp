@@ -1,0 +1,28 @@
+{
+  "name": "goBlog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "htmx.org": "^1.9.12",
+    "node": "^22.3.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "tailwindcss build css/input.css -o css/output.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luongquochai/goBlogAppApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luongquochai/goBlogAppApp/issues"
+  },
+  "homepage": "https://github.com/luongquochai/goBlogAppApp#readme"
+}

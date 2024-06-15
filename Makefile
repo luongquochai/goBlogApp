@@ -27,4 +27,7 @@ test:
 server:
 	go run cmd/main.go
 
+tailwindcss:
+	npx tailwindcss -i ./internal/static/css/styles.css -o ./internal/static/css/output.css --watch
+
 .PHONY: postgres start_docker createdb dropdb migrateup migratedown sqlc test server

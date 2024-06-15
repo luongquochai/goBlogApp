@@ -10,6 +10,10 @@ import (
 
 var store = cookie.NewStore([]byte("secret"))
 
+type PageData struct {
+	Title string
+}
+
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)

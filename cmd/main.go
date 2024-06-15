@@ -6,8 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
-	"github.com/luongquochai/goBlog/internal/handlers"
-	"github.com/luongquochai/goBlog/internal/util"
+	"github.com/luongquochai/goBlogApp/internal/handlers"
+	"github.com/luongquochai/goBlogApp/internal/util"
 )
 
 func main() {

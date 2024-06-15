@@ -17,7 +17,7 @@ func RegisterRoutes(router *gin.Engine, db *sql.DB) {
 	// Set up sessions
 	router.Use(sessions.Sessions("mysession", store))
 
-	router.Static("/static", "./static")
+	router.Static("/static", "./internal/static")
 
 	// Public routes
 	router.GET("/", handler.HomePage)
@@ -34,7 +34,6 @@ func RegisterRoutes(router *gin.Engine, db *sql.DB) {
 		authourized.GET("/home", handler.HomePageAuth)
 		authourized.GET("/change-password", handler.ChangePassword)
 		authourized.POST("/change-password", handler.ChangePasswordPost)
-		// authourized.POST("/logout", handler.Logout)
 	}
 
 }
