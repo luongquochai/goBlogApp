@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -10,6 +11,11 @@ import (
 	"github.com/luongquochai/goBlogApp/internal/util"
 	"golang.org/x/crypto/bcrypt"
 )
+
+type UserParams struct {
+	Username       string `json:"username"`
+	HashedPassword string `json:"hashed_password"`
+}
 
 func (h *AuthHandler) Login(c *gin.Context) {
 	tmpl := template.Must(template.ParseFiles("internal/templates/layout.html", "internal/templates/login.html"))
@@ -23,6 +29,16 @@ func (h *AuthHandler) LoginPost(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 
+	if username == "" || password == "" {
+		var user UserParams
+		if err := c.ShouldBindJSON(&user); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		username = user.Username
+		password = user.HashedPassword
+	}
+
 	// TODO: Dynamic inpu login: username or email
 	// TODO: Adjust sqlc: GetUserByEmail
 	user, err := models.New(h.db).GetUserByUsername(c.Request.Context(), username)
@@ -35,13 +51,14 @@ func (h *AuthHandler) LoginPost(c *gin.Context) {
 		c.String(http.StatusUnauthorized, "Invalid credentials")
 		return
 	}
-
 	// Set session
 	session := sessions.Default(c)
 	session.Set("user", username)
+	session.Set("user_id", user.ID)
 	session.Save()
 
 	c.Redirect(http.StatusSeeOther, "/home")
+	// c.JSON(http.StatusOK, user)
 }
 
 func (h *AuthHandler) Register(c *gin.Context) {
@@ -56,6 +73,19 @@ func (h *AuthHandler) RegisterPost(c *gin.Context) {
 	username := c.PostForm("username")
 	email := c.PostForm("email")
 	password := c.PostForm("password")
+
+	if username == "" || email == "" || password == "" {
+		var user models.CreateUserParams
+		if err := c.ShouldBindJSON(&user); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		username = user.Username
+		email = user.Email
+		password = user.HashedPassword
+	}
+
+	log.Printf("data: %v %v %v", username, email, password)
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
@@ -81,6 +111,7 @@ func (h *AuthHandler) RegisterPost(c *gin.Context) {
 	}
 
 	c.Redirect(http.StatusSeeOther, "/login")
+	// c.JSON(http.StatusOK, user)
 }
 
 func (h *AuthHandler) ChangePassword(c *gin.Context) {

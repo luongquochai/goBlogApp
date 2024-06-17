@@ -35,3 +35,5 @@ WHERE id = $1 AND author_id = $4;
 -- name: DeletePostByAuthor :exec
 DELETE FROM posts
 WHERE id = $1 AND author_id = $2;
+
+

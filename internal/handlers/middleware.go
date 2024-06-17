@@ -18,7 +18,8 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get("user")
-		if user == nil {
+		user_id := session.Get("id")
+		if user == nil && user_id == nil {
 			c.Redirect(http.StatusSeeOther, "/login")
 			c.Abort()
 			return

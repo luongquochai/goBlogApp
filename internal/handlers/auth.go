@@ -13,6 +13,7 @@ type AuthHandler struct {
 
 func RegisterRoutes(router *gin.Engine, db *sql.DB) {
 	handler := &AuthHandler{db: db}
+	postHandler := &PostHandler{db: db}
 
 	// Set up sessions
 	router.Use(sessions.Sessions("mysession", store))
@@ -25,15 +26,21 @@ func RegisterRoutes(router *gin.Engine, db *sql.DB) {
 	router.POST("/login", handler.LoginPost)
 	router.GET("/register", handler.Register)
 	router.POST("/register", handler.RegisterPost)
-	router.GET("/logout", handler.Logout) // Logout route
+	router.GET("/logout", handler.Logout)       // Logout route
+	router.GET("/posts", postHandler.ListPosts) // List posts on homepage
 
 	// Authorization routes
-	authourized := router.Group("/")
-	authourized.Use(AuthMiddleware())
+	authorized := router.Group("/")
+	authorized.Use(AuthMiddleware())
 	{
-		authourized.GET("/home", handler.HomePageAuth)
-		authourized.GET("/change-password", handler.ChangePassword)
-		authourized.POST("/change-password", handler.ChangePasswordPost)
+		authorized.GET("/home", handler.HomePageAuth)
+		authorized.GET("/change-password", handler.ChangePassword)
+		authorized.POST("/change-password", handler.ChangePasswordPost)
+
+		// Post routes
+		authorized.POST("/posts", postHandler.CreatePost)
+		authorized.PUT("/posts/:id", postHandler.UpdatePostByAuthor)
+		authorized.DELETE("/posts/:id", postHandler.DeletePost)
 	}
 
 }
