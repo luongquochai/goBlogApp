@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "htmx.org": "^1.9.12",
-    "node": "^22.3.0"
+    "node": "^22.3.0",
+    "npx": "^10.2.2"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.4"

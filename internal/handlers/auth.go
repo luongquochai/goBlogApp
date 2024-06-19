@@ -26,8 +26,9 @@ func RegisterRoutes(router *gin.Engine, db *sql.DB) {
 	router.POST("/login", handler.LoginPost)
 	router.GET("/register", handler.Register)
 	router.POST("/register", handler.RegisterPost)
-	router.GET("/logout", handler.Logout)       // Logout route
-	router.GET("/posts", postHandler.ListPosts) // List posts on homepage
+	router.GET("/logout", handler.Logout) // Logout route
+	// router.GET("/api/posts", postHandler.ListPosts) // List posts on homepage
+	router.GET("/list-posts", postHandler.ListPosts)
 
 	// Authorization routes
 	authorized := router.Group("/")
@@ -38,9 +39,11 @@ func RegisterRoutes(router *gin.Engine, db *sql.DB) {
 		authorized.POST("/change-password", handler.ChangePasswordPost)
 
 		// Post routes
-		authorized.POST("/posts", postHandler.CreatePost)
-		authorized.PUT("/posts/:id", postHandler.UpdatePostByAuthor)
-		authorized.DELETE("/posts/:id", postHandler.DeletePost)
+		authorized.POST("/create-post", postHandler.CreatePost)
+		authorized.GET("/cancel", postHandler.CancelHandler)
+		// authorized.GET("/list-posts", postHandler.ListPosts)
+		authorized.PUT("/edit-post/:id", postHandler.UpdatePostByAuthor)
+		authorized.DELETE("/delete-post/:id", postHandler.DeletePost)
 	}
 
 }

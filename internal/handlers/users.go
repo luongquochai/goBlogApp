@@ -13,8 +13,8 @@ import (
 )
 
 type UserParams struct {
-	Username       string `json:"username"`
-	HashedPassword string `json:"hashed_password"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 func (h *AuthHandler) Login(c *gin.Context) {
@@ -36,7 +36,7 @@ func (h *AuthHandler) LoginPost(c *gin.Context) {
 			return
 		}
 		username = user.Username
-		password = user.HashedPassword
+		password = user.Password
 	}
 
 	// TODO: Dynamic inpu login: username or email

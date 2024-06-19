@@ -76,3 +76,64 @@ main {
     margin: 2em auto;
     padding: 0 1em;
 }
+
+
+.create-post, .posts {
+    background-color: white;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.create-post form {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-post label {
+    margin-bottom: 5px;
+}
+
+.create-post input, .create-post textarea {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.create-post button {
+    align-self: flex-start;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.create-post button[type="button"] {
+    background-color: #6c757d;
+}
+
+.posts .post {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.posts .post h3 {
+    margin: 0;
+}
+
+.posts .post small {
+    color: #666;
+}
+
+.posts .post button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 5px;
+}

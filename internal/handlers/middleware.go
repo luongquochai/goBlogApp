@@ -11,7 +11,8 @@ import (
 var store = cookie.NewStore([]byte("secret"))
 
 type PageData struct {
-	Title string
+	Title           string
+	CurrentAuthorID int32
 }
 
 func AuthMiddleware() gin.HandlerFunc {
